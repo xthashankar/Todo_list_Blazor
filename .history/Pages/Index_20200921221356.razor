@@ -1,0 +1,44 @@
+﻿@page "/"
+@using Helloworldproject.Models
+
+<div class="container">
+    <h1>TODO APP</h1>
+    <div class="input">
+        <input type="text" @bind="todoinput"/>
+        <button @onclick="add">ADD</button>
+    </div>
+    @for (int i=0;i<todo.Count;i++){
+        var index=i;
+        var Todo =todo[i];
+
+       <div class="items">
+            <div 
+            class="@(Todo.IsComplete ?" item_text complete":"item__text")" 
+            @onclick="@(() => Markascomplete(Todo))"> 
+            @Todo.Title</div>
+            <div class="item_close" @onclick="@(() => Remove(index))" > &times;</div>
+
+        </div> 
+    }
+</div>
+ 
+@code{
+    public string todoinput { get; set; }
+    public List<Todos> todo = new List<Todos>();
+    public void add()
+    {
+        var todotitle = new Todos();
+        todotitle.Title = todoinput;
+        todo.Add(todotitle);
+        Console.WriteLine(todoinput);
+        todoinput = "";
+    }
+    public void Remove(int index)
+    {
+        todo.RemoveAt(index);
+    }
+    public void Markascomplete(Todos todotitle)
+    {
+        todotitle.IsComplete = !todotitle.IsComplete;
+    }
+}
